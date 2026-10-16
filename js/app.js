@@ -12,11 +12,13 @@
 //  colocar o link no menu do index.html.
 // =====================================================================
 
+import { supabase } from './supabase.js';
 import { signIn, signOut, onAuthChange, loadHousehold } from './auth.js';
 import { escapeHTML, friendlyError } from './utils.js';
 import { APP_NAME } from './config.js';
 import { state } from './state.js';
 
+import * as painel from './pages/painel.js';
 import * as lancamentos from './pages/lancamentos.js';
 import * as contas from './pages/contas.js';
 import * as teste from './pages/teste.js';
@@ -27,11 +29,12 @@ const $ = (sel) => document.querySelector(sel);
 // Rotas: nome no hash → módulo da página
 // ---------------------------------------------------------------------
 const routes = {
+  painel,
   lancamentos,
   contas,
   teste
 };
-const DEFAULT_ROUTE = 'lancamentos';
+const DEFAULT_ROUTE = 'painel';
 
 function currentRoute() {
   const name = location.hash.replace(/^#\/?/, '').split('?')[0];
@@ -71,7 +74,14 @@ async function showApp() {
   $('#login').hidden = true;
   $('#app').hidden = false;
   try {
-    if (!state.household) state.household = await loadHousehold();
+    if (!state.household) {
+      state.household = await loadHousehold();
+      // Gera os lançamentos recorrentes que "venceram" desde o último acesso
+      // (ex.: o salário de dezembro aparece sozinho quando novembro chega).
+      // Uma vez por login basta; o banco ignora o que já existe.
+      const gen = await supabase.rpc('generate_recurrences');
+      if (gen.error) console.error(gen.error);
+    }
     $('#user-name').textContent = state.household.me.name;
     await renderRoute();
   } catch (err) {

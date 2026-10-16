@@ -420,6 +420,122 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
   .month-title { min-width: 0; flex: 1; font-size: 18px; }
 }
 
+/* ------------------------------ Painel ------------------------------ */
+.eyebrow { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 4px; }
+.btn-as-link { display: inline-flex; align-items: center; text-decoration: none; }
+
+.tiles-4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.grid-2 > .card { margin-bottom: 0; }
+.grid-2 + .card { margin-top: 14px; }
+
+.card-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 16px; margin-bottom: 12px; }
+.card-head h2 { margin: 0; }
+.card-link { font-size: 13px; font-weight: 700; color: var(--primary); }
+
+.alert-warn { background: #FDF0E4; color: #7A3A0C; border: 1px solid #F0CBA8; }
+.alert-icon { display: flex; align-items: center; gap: 12px; }
+.alert-icon svg { flex-shrink: 0; }
+
+/* Próximos vencimentos */
+.up-list { list-style: none; margin: 0; padding: 0; }
+.up-row {
+  display: grid; grid-template-columns: 56px minmax(0, 1fr) auto auto;
+  gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line-soft);
+}
+.up-row:last-child { border-bottom: 0; }
+.up-date {
+  font-size: 12px; font-weight: 800; text-align: center; border-radius: 8px; padding: 6px 0;
+  background: #FDF0E4; color: #7A3A0C; display: flex; flex-direction: column; line-height: 1.25;
+}
+.up-date small { font-size: 10px; font-weight: 700; }
+.up-overdue { background: #FBE2DE; color: var(--danger); }
+.up-income  { background: var(--primary-soft); color: #173F31; }
+.up-title { font-weight: 700; font-size: 14px; overflow-wrap: anywhere; }
+.up-sub { font-size: 12px; color: var(--muted); font-weight: 600; }
+.up-amount { font-weight: 800; font-size: 14px; white-space: nowrap; }
+.btn-sm {
+  min-height: 36px; padding: 0 12px; border-radius: 9px;
+  border: 1px solid var(--primary); background: var(--surface); color: var(--primary);
+  font: inherit; font-size: 12px; font-weight: 700; cursor: pointer;
+  display: inline-flex; align-items: center; text-decoration: none;
+}
+.btn-sm:hover { background: var(--primary-soft); }
+@media (max-width: 480px) {
+  .up-row { grid-template-columns: 50px minmax(0, 1fr) auto; }
+  .up-row .btn-sm { grid-column: 2 / -1; justify-self: start; }
+}
+
+/* Contas e cartões (resumo) */
+.mini-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.mini-list + .mini-list { margin-top: 10px; }
+.mini-acc, .mini-card { background: var(--bg); border-radius: 12px; padding: 10px 12px; }
+.mini-acc, .mini-card-top { display: flex; align-items: center; gap: 10px; font-size: 14px; }
+.mini-name { flex: 1; min-width: 0; font-weight: 700; overflow-wrap: anywhere; }
+.mini-avatar {
+  width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+  color: #FFFFFF; font-size: 11px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.mini-card { display: flex; flex-direction: column; gap: 6px; }
+.mini-sub { font-size: 12px; color: var(--muted); font-weight: 600; }
+
+/* Barras horizontais (categorias e orçamentos) */
+.hbars { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.hbar-label {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 12px;
+  font-size: 13px; font-weight: 600; margin-bottom: 6px;
+}
+.hbar-label > span:first-child { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; }
+.hbar-track { height: 10px; border-radius: 99px; background: var(--line-soft); overflow: hidden; }
+.hbar-fill { height: 100%; border-radius: 4px; background: #D9772F; }
+.hbar-ok { background: var(--primary); }
+.hbar-note { font-size: 12px; font-weight: 700; color: #7A3A0C; margin-top: 4px; }
+
+/* Gráfico de colunas (6 meses) */
+.legend { display: flex; gap: 14px; font-size: 12px; font-weight: 700; color: var(--muted); }
+.legend span, .col-tip span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i, .col-tip i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.chart-scroll { overflow-x: auto; padding-top: 8px; }
+.cols {
+  display: grid; grid-template-columns: repeat(6, minmax(40px, 1fr));
+  gap: 6px; min-width: 280px; height: 190px; align-items: end;
+  border-bottom: 1px solid var(--line);
+}
+.col {
+  position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end;
+  align-items: center; border-radius: 8px; outline: none; cursor: default;
+}
+.col:hover, .col:focus-visible { background: var(--bg); }
+.col:focus-visible { box-shadow: 0 0 0 2px var(--primary); }
+.col-bars { display: flex; align-items: flex-end; gap: 2px; height: 150px; }
+.col-bar { width: 20px; border-radius: 4px 4px 0 0; }
+@media (max-width: 480px) { .col-bar { width: 14px; } }
+.col-label { font-size: 12px; font-weight: 700; color: var(--muted); padding: 6px 0; text-transform: capitalize; }
+.col-current .col-label { color: var(--ink); }
+.col-tip {
+  display: none; position: absolute; bottom: calc(100% - 20px); left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: #FFFFFF; border-radius: 10px; padding: 10px 12px;
+  font-size: 12px; font-weight: 600; white-space: nowrap; z-index: 5;
+  flex-direction: column; gap: 4px; pointer-events: none;
+}
+.col:hover .col-tip, .col:focus-visible .col-tip { display: flex; }
+.col:first-child .col-tip { left: 0; transform: none; }
+.col:last-child .col-tip { left: auto; right: 0; transform: none; }
+
+.table-view { margin-top: 12px; font-size: 13px; }
+.table-view summary { cursor: pointer; font-weight: 700; color: var(--primary); padding: 6px 0; }
+.table-view table { width: 100%; border-collapse: collapse; margin-top: 6px; }
+.table-view th, .table-view td { text-align: right; padding: 7px 6px; border-bottom: 1px solid var(--line-soft); }
+.table-view th:first-child { text-align: left; }
+.table-view thead th { color: var(--muted); font-size: 12px; }
+
 /* ------------------------------ Alertas ----------------------------- */
 .alert { border-radius: 12px; padding: 13px 16px; font-size: 14px; font-weight: 600; margin-bottom: 14px; }
 .alert-ok    { background: var(--primary-soft); color: #173F31; border: 1px solid #BFDCCD; }

@@ -21,6 +21,7 @@ e acesse http://localhost:5500
     js/utils.js         moeda, datas, escape de HTML, mensagens de erro
     js/ui.js            janela (modal), aviso rápido, confirmação
     js/app.js           inicialização e rotas (#/pagina)
+    js/pages/painel.js  Painel (tela inicial)
     js/pages/lancamentos.js  Lançamentos (receitas, despesas, transferências)
     js/pages/contas.js  Contas e cartões (inclui pagar fatura)
     js/pages/teste.js   Teste de conexão (diagnóstico)

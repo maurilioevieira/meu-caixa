@@ -56,6 +56,12 @@ export async function render(view) {
   };
   drawShell(view);
   drawList(view);
+
+  // Atalho vindo do Painel (#/lancamentos?novo=1): abre o formulário direto
+  if (/[?&]novo=1/.test(location.hash)) {
+    history.replaceState(null, '', '#/lancamentos');
+    openTxForm(view, null);
+  }
 }
 
 // ---------------------------------------------------------------------
