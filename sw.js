@@ -19,7 +19,7 @@
 //  Ao mudar a lista de arquivos, aumente VERSION para limpar o cache antigo.
 // =====================================================================
 
-const VERSION = 'meu-caixa-v2';
+const VERSION = 'meu-caixa-v3';
 
 const SHELL = [
   './',
@@ -35,6 +35,7 @@ const SHELL = [
   './js/ui.js',
   './js/utils.js',
   './js/pwa.js',
+  './js/conta.js',
   './js/vendor/supabase-2.45.4.js',
   './js/pages/painel.js',
   './js/pages/lancamentos.js',

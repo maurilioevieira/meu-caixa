@@ -159,6 +159,11 @@ export function friendlyError(error) {
   if (code === '23505') return 'Já existe um registro igual.';
   if (code === '23514') return 'Algum valor está fora do permitido. Confira os campos.';
   if (/Invalid login credentials/i.test(msg)) return 'E-mail ou senha incorretos.';
+  if (/should be different from the old/i.test(msg)) return 'A nova senha precisa ser diferente da atual.';
+  if (/Password should be at least/i.test(msg)) return 'Senha muito curta.';
+  if (/weak|pwned|leaked/i.test(msg)) return 'Senha fraca ou conhecida em vazamentos. Escolha outra.';
+  if (/rate limit|security purposes|too many/i.test(msg)) return 'Muitas tentativas seguidas. Aguarde alguns minutos e tente de novo.';
+  if (/Auth session missing|session_not_found/i.test(msg)) return 'O link expirou ou já foi usado. Peça um novo em “Esqueci minha senha”.';
   if (/Email not confirmed/i.test(msg)) return 'E-mail ainda não confirmado.';
   if (/Failed to fetch|NetworkError|Load failed/i.test(msg)) return 'Sem conexão com o servidor. Verifique a internet.';
   if (/row-level security/i.test(msg)) return 'Sem permissão para esta operação.';

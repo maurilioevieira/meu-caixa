@@ -585,6 +585,21 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
 }
 .acp-row:last-child { border-bottom: 0; }
 
+/* ------------------------------ Conta ------------------------------- */
+.forgot-link { align-self: center; margin-top: 2px; }
+.user-btn {
+  background: none; border: 0; padding: 8px 6px; margin-left: -6px; border-radius: 8px;
+  font: inherit; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  text-decoration: underline; text-decoration-color: rgba(232,236,231,.35); text-underline-offset: 4px;
+}
+.user-btn:hover { background: #24302A; }
+.account-box {
+  display: grid; gap: 10px; padding: 12px 14px; border-radius: 12px; background: var(--bg);
+}
+.account-box > div { display: flex; flex-direction: column; gap: 2px; font-size: 14px; }
+.account-box .muted { font-size: 12px; font-weight: 700; }
+.modal-subtitle { margin: 6px 0 0; font-size: 15px; font-weight: 800; }
+
 /* ------------------------------- PWA -------------------------------- */
 .boot {
   min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -616,7 +631,7 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
 /* ------------------------------- Aviso ------------------------------ */
 .toast {
   position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px);
-  max-width: calc(100vw - 32px);
+  width: max-content; max-width: min(480px, calc(100vw - 32px)); text-align: center;
   padding: 12px 18px; border-radius: 12px;
   font-size: 14px; font-weight: 700;
   background: var(--ink); color: #FFFFFF;
@@ -650,6 +665,9 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
   .sidebar a              { font-size: 16px; }
   .sidebar a.nav-minor    { font-size: 15px; }
   .user-name              { font-size: 15px; }
+  .account-box > div      { font-size: 16px; }
+  .account-box .muted     { font-size: 14px; }
+  .modal-subtitle         { font-size: 17px; }
 
   /* Botões e links */
   .btn                    { font-size: 16px; }

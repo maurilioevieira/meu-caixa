@@ -22,9 +22,37 @@ export async function signOut() {
   await supabase.auth.signOut();
 }
 
-// Chama o callback sempre que alguém entra ou sai
+// Chama o callback sempre que alguém entra ou sai.
+// Recebe também o tipo do evento: 'PASSWORD_RECOVERY' indica que a pessoa
+// chegou pelo link de "esqueci minha senha" e precisa definir a nova.
 export function onAuthChange(callback) {
-  supabase.auth.onAuthStateChange((_event, session) => callback(session));
+  supabase.auth.onAuthStateChange((event, session) => callback(session, event));
+}
+
+// Endereço para onde o link do e-mail de recuperação leva de volta.
+// Precisa estar na lista "Redirect URLs" do Supabase (passo 4.4).
+function appAddress() {
+  return window.location.origin + window.location.pathname.replace(/index\.html$/, '');
+}
+
+// Envia o e-mail com o link para criar uma nova senha
+export async function requestPasswordReset(email) {
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
+    redirectTo: appAddress()
+  });
+  if (error) throw error;
+}
+
+// Troca a senha de quem está logado (inclusive quem veio pelo link do e-mail)
+export async function updatePassword(newPassword) {
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) throw error;
+}
+
+// E-mail de quem está logado
+export async function currentEmail() {
+  const { data } = await supabase.auth.getUser();
+  return data.user?.email ?? '';
 }
 
 // Grupo familiar do usuário logado + membros.

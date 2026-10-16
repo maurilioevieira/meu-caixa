@@ -22,6 +22,7 @@ e acesse http://localhost:5500
     js/data.js          leituras comuns (contas, categorias)
     js/auth.js          login, logout, grupo familiar
     js/utils.js         moeda, datas, escape de HTML, mensagens de erro
+    js/conta.js         esqueci minha senha, nova senha, minha conta
     js/pwa.js           registra o service worker e o botão “Instalar app”
     js/ui.js            janela (modal), aviso rápido, confirmação
     js/app.js           inicialização e rotas (#/pagina)

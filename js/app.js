@@ -17,6 +17,7 @@ import { signIn, signOut, onAuthChange, loadHousehold } from './auth.js';
 import { escapeHTML, friendlyError } from './utils.js';
 import { APP_NAME } from './config.js';
 import { state } from './state.js';
+import { openForgotPassword, openRecoveryPassword, openMyAccount } from './conta.js';
 import './pwa.js';   // service worker + botão "Instalar app"
 
 import * as painel from './pages/painel.js';
@@ -131,6 +132,12 @@ $('#login-form').addEventListener('submit', async (e) => {
 
 $('#logout-btn').addEventListener('click', () => signOut());
 
+$('#forgot-btn').addEventListener('click', () => openForgotPassword($('#login-email').value));
+
+$('#user-name').addEventListener('click', () => {
+  if (state.household) openMyAccount(state.household.me.name);
+});
+
 window.addEventListener('hashchange', () => {
   if (state.household) renderRoute();
 });
@@ -144,10 +151,29 @@ document.title = APP_NAME;
 // então ele sozinho decide se abre o login ou o app.
 // O setTimeout é recomendação da documentação do supabase-js: chamar
 // outras funções do Supabase DENTRO deste callback pode travar o login.
+//
+// PASSWORD_RECOVERY = a pessoa chegou pelo link de "esqueci minha senha":
+// o app abre normalmente e, em seguida, pede a nova senha.
 let lastUserId;
-onAuthChange((session) => {
+let recoveryPending = false;
+onAuthChange((session, event) => {
+  if (event === 'PASSWORD_RECOVERY') recoveryPending = true;
   const uid = session?.user?.id ?? null;
-  if (uid === lastUserId) return;   // ignora renovações de token
+
+  if (uid === lastUserId) {           // mesma pessoa (ex.: renovação de token)
+    if (recoveryPending && uid) {
+      recoveryPending = false;
+      setTimeout(openRecoveryPassword, 0);
+    }
+    return;
+  }
   lastUserId = uid;
-  setTimeout(() => { if (uid) showApp(); else showLogin(); }, 0);
+  setTimeout(async () => {
+    if (!uid) return showLogin();
+    await showApp();
+    if (recoveryPending) {
+      recoveryPending = false;
+      openRecoveryPassword();
+    }
+  }, 0);
 });
