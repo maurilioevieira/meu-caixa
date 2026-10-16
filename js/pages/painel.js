@@ -345,9 +345,11 @@ function budgetsHTML(d) {
   if (!withBudget.length) {
     return `
       <section class="card" aria-labelledby="h-bud">
-        <h2 id="h-bud">Orçamentos do mês</h2>
-        <p class="empty">Nenhum limite mensal definido. Os limites por categoria (inclusive o de
-          bebida) serão configurados na página Categorias, no próximo passo.</p>
+        <div class="card-head">
+          <h2 id="h-bud">Orçamentos do mês</h2>
+          <a class="card-link" href="#/categorias">Definir limites</a>
+        </div>
+        <p class="empty">Nenhum limite mensal definido. Defina em Categorias → Editar.</p>
       </section>`;
   }
   const spent = new Map();
@@ -358,7 +360,10 @@ function budgetsHTML(d) {
   }
   return `
     <section class="card" aria-labelledby="h-bud">
-      <h2 id="h-bud">Orçamentos do mês</h2>
+      <div class="card-head">
+        <h2 id="h-bud">Orçamentos do mês</h2>
+        <a class="card-link" href="#/categorias">Ajustar limites</a>
+      </div>
       <ul class="hbars">
         ${withBudget.map((c) => {
           const s = spent.get(c.id) ?? 0;

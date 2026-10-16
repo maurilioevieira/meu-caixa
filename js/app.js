@@ -21,6 +21,7 @@ import { state } from './state.js';
 import * as painel from './pages/painel.js';
 import * as lancamentos from './pages/lancamentos.js';
 import * as contas from './pages/contas.js';
+import * as categorias from './pages/categorias.js';
 import * as teste from './pages/teste.js';
 
 const $ = (sel) => document.querySelector(sel);
@@ -32,6 +33,7 @@ const routes = {
   painel,
   lancamentos,
   contas,
+  categorias,
   teste
 };
 const DEFAULT_ROUTE = 'painel';
@@ -46,7 +48,13 @@ async function renderRoute() {
   document.querySelectorAll('[data-route]').forEach((a) => {
     const active = a.dataset.route === name;
     a.classList.toggle('active', active);
-    if (active) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
+    if (active) {
+      a.setAttribute('aria-current', 'page');
+      // No celular o menu rola de lado: traz a página atual para a vista
+      a.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    } else {
+      a.removeAttribute('aria-current');
+    }
   });
   const view = $('#view');
   view.onclick = null;     // limpa ouvintes da página anterior
