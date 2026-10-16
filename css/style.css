@@ -411,6 +411,8 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
   margin: 0; padding: 11px 14px; border-radius: 11px;
   background: #ECE6F5; color: #3F2468; font-size: 13px; font-weight: 600; line-height: 1.5;
 }
+.info-box-neutral { background: var(--bg); color: var(--ink); display: flex; flex-direction: column; gap: 4px; }
+.info-box-neutral .check-line { color: var(--ink); padding: 0; }
 .inst-preview { align-self: end; padding-bottom: 14px; font-weight: 700; color: var(--ink); }
 
 @media (max-width: 560px) {
@@ -582,6 +584,29 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
   gap: 12px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line-soft);
 }
 .acp-row:last-child { border-bottom: 0; }
+
+/* ------------------------------- PWA -------------------------------- */
+.boot {
+  min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px; padding: 24px; text-align: center; color: var(--muted); font-weight: 600;
+}
+.boot .brand-mark { width: 52px; height: 52px; border-radius: 14px; font-size: 18px; }
+/* Respeita o entalhe e a barra de status quando o app está instalado */
+.sidebar { padding-top: calc(24px + env(safe-area-inset-top)); }
+.login { padding-top: calc(16px + env(safe-area-inset-top)); padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+.content { padding-bottom: calc(48px + env(safe-area-inset-bottom)); }
+.toast { bottom: calc(24px + env(safe-area-inset-bottom)); }
+@media (max-width: 760px) {
+  .sidebar { padding-top: calc(12px + env(safe-area-inset-top)); }
+}
+.sidebar-footer { flex-wrap: wrap; }
+.btn-install {
+  min-height: 40px; background: #3FA37C; color: #0D1712; font-size: 14px; padding: 0 14px;
+}
+.btn-install:hover { background: #4DB88D; }
+@media (min-width: 761px) { .btn-install { flex-basis: 100%; margin-bottom: 8px; } }
+
+.steps { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; line-height: 1.5; }
 
 /* ------------------------------ Alertas ----------------------------- */
 .alert { border-radius: 12px; padding: 13px 16px; font-size: 14px; font-weight: 600; margin-bottom: 14px; }

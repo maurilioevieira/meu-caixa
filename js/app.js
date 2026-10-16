@@ -17,6 +17,7 @@ import { signIn, signOut, onAuthChange, loadHousehold } from './auth.js';
 import { escapeHTML, friendlyError } from './utils.js';
 import { APP_NAME } from './config.js';
 import { state } from './state.js';
+import './pwa.js';   // service worker + botão "Instalar app"
 
 import * as painel from './pages/painel.js';
 import * as lancamentos from './pages/lancamentos.js';
@@ -73,7 +74,13 @@ async function renderRoute() {
 // ---------------------------------------------------------------------
 // Telas: login ou app
 // ---------------------------------------------------------------------
+function hideBoot() {
+  const boot = document.getElementById('boot');
+  if (boot) boot.hidden = true;
+}
+
 function showLogin() {
+  hideBoot();
   state.household = null;
   $('#app').hidden = true;
   $('#login').hidden = false;
@@ -81,6 +88,7 @@ function showLogin() {
 }
 
 async function showApp() {
+  hideBoot();
   $('#login').hidden = true;
   $('#app').hidden = false;
   try {

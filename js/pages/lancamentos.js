@@ -485,7 +485,16 @@ function openTxForm(view, tx, presetCategoryId = null) {
     `}
 
     ${isInstallment ? '<p class="hint">Parcela de compra parcelada: conta e data da compra não podem ser alteradas. Para mudar tudo, exclua a compra inteira e lance de novo.</p>' : ''}
-    ${tx?.recurrence_id ? '<p class="hint">Lançamento recorrente: a alteração vale só para este mês.</p>' : ''}
+    ${tx?.recurrence_id ? `
+      <div class="info-box info-box-neutral">
+        <label class="check-line">
+          <input type="checkbox" id="t-future" name="apply_future">
+          Aplicar valor, descrição e categoria também aos próximos meses
+        </label>
+        <p class="hint">Marcado: os meses seguintes em aberto e os que ainda serão gerados passam a usar
+          os novos dados (ex.: reajuste anual do aluguel). Meses já pagos não mudam.
+          Desmarcado: a alteração vale só para este mês.</p>
+      </div>` : ''}
 
     <div class="field">
       <label for="t-notes">Observações (opcional)</label>
@@ -653,6 +662,24 @@ async function saveTx(form, tx) {
     }
     const { error } = await supabase.from('transactions').update(row).eq('id', tx.id);
     if (error) throw error;
+
+    // Reajuste de recorrência: muda o "molde" e os próximos meses em aberto.
+    // A conta não é propagada de propósito: trocar entre conta e cartão
+    // mudaria vencimentos já calculados; se precisar, encerre a repetição
+    // e crie outra na conta nova.
+    if (tx.recurrence_id && $('#t-future')?.checked) {
+      const future = { amount, description, category_id: categoryId };
+      const rec = await supabase.from('recurrences').update(future).eq('id', tx.recurrence_id);
+      if (rec.error) throw rec.error;
+      const next = await supabase.from('transactions').update(future)
+        .eq('recurrence_id', tx.recurrence_id)
+        .gt('occurred_on', tx.occurred_on)
+        .is('paid_at', null);
+      if (next.error) throw next.error;
+      toast('Atualizado neste e nos próximos meses.');
+      return;
+    }
+
     toast('Lançamento atualizado.');
     return;
   }

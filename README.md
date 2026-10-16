@@ -12,6 +12,9 @@ e acesse http://localhost:5500
 
 ## Estrutura
     index.html          login, casca do app, janela de formulário e aviso
+    manifest.json       dados do app instalável (nome, ícones, atalhos)
+    sw.js               service worker (abre sem internet, instala no celular)
+    icons/              ícones do app
     css/style.css       visual
     js/config.js        URL e chave anon do Supabase
     js/supabase.js      cliente único do Supabase
@@ -19,6 +22,7 @@ e acesse http://localhost:5500
     js/data.js          leituras comuns (contas, categorias)
     js/auth.js          login, logout, grupo familiar
     js/utils.js         moeda, datas, escape de HTML, mensagens de erro
+    js/pwa.js           registra o service worker e o botão “Instalar app”
     js/ui.js            janela (modal), aviso rápido, confirmação
     js/app.js           inicialização e rotas (#/pagina)
     js/pages/painel.js  Painel (tela inicial)

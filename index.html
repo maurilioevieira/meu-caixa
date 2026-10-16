@@ -6,12 +6,38 @@
   <meta name="theme-color" content="#16201B">
   <meta name="robots" content="noindex, nofollow">
   <title>Meu Caixa</title>
+
+  <!-- App instalável (PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Meu Caixa">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <!-- Tela de abertura: some quando o app termina de carregar.
+       Se algo impedir o carregamento, avisa em vez de ficar em branco. -->
+  <div id="boot" class="boot" role="status">
+    <div class="brand-mark">R$</div>
+    <p id="boot-msg">Carregando…</p>
+  </div>
+  <script>
+    setTimeout(function () {
+      var boot = document.getElementById('boot');
+      if (boot && !boot.hidden) {
+        document.getElementById('boot-msg').textContent =
+          'Não foi possível abrir o app. Verifique a conexão com a internet e tente novamente.';
+      }
+    }, 10000);
+  </script>
 
   <!-- ============================ LOGIN ============================ -->
   <main id="login" class="login" hidden>
@@ -50,6 +76,7 @@
         <a href="#/teste" data-route="teste" class="nav-minor">Teste de conexão</a>
       </div>
       <div class="sidebar-footer">
+        <button id="install-btn" type="button" class="btn btn-install" hidden>Instalar app</button>
         <span id="user-name" class="user-name"></span>
         <button id="logout-btn" type="button" class="btn btn-ghost">Sair</button>
       </div>
