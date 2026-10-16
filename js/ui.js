@@ -23,7 +23,8 @@ let currentSubmit = null;
  * @param {string}   opts.title        Título da janela
  * @param {string}   opts.bodyHTML     HTML dos campos (já escapado por quem chama)
  * @param {string}   opts.submitLabel  Texto do botão principal
- * @param {Function} opts.onOpen       Chamada após abrir (para ligar eventos dos campos)
+ * @param {Function} opts.onOpen       Chamada após abrir (para ligar eventos dos campos —
+ *                                     use form.onchange / form.oninput, nunca addEventListener)
  * @param {Function} opts.onSubmit     async (formElement) → se lançar erro, ele aparece na janela
  */
 export function openModal({ title, bodyHTML, submitLabel = 'Salvar', onOpen, onSubmit }) {
@@ -33,6 +34,10 @@ export function openModal({ title, bodyHTML, submitLabel = 'Salvar', onOpen, onS
   submitBtn.textContent = submitLabel;
   submitBtn.disabled = false;
   currentSubmit = onSubmit;
+  // Limpa reações da janela anterior: a janela é a mesma para todos os
+  // formulários, então reações antigas não podem sobreviver à troca.
+  form.onchange = null;
+  form.oninput = null;
   dialog.showModal();
   if (onOpen) onOpen(form);
   const first = bodyEl.querySelector('input:not([type=hidden]):not([disabled]), select:not([disabled])');

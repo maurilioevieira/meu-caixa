@@ -4,7 +4,7 @@
 //  Responsabilidades:
 //   1. Decidir entre tela de login e app (conforme a sessão)
 //   2. Carregar o grupo familiar uma única vez e guardar em "state"
-//   3. Rotear entre páginas pelo "#" da URL (#/contas, #/teste…)
+//   3. Rotear entre páginas pelo "#" da URL (#/lancamentos, #/contas…)
 //      — roteamento por hash funciona no GitHub Pages sem configuração.
 //
 //  Cada página vive em js/pages/<nome>.js e exporta render(view).
@@ -17,6 +17,7 @@ import { escapeHTML, friendlyError } from './utils.js';
 import { APP_NAME } from './config.js';
 import { state } from './state.js';
 
+import * as lancamentos from './pages/lancamentos.js';
 import * as contas from './pages/contas.js';
 import * as teste from './pages/teste.js';
 
@@ -26,10 +27,11 @@ const $ = (sel) => document.querySelector(sel);
 // Rotas: nome no hash → módulo da página
 // ---------------------------------------------------------------------
 const routes = {
+  lancamentos,
   contas,
   teste
 };
-const DEFAULT_ROUTE = 'contas';
+const DEFAULT_ROUTE = 'lancamentos';
 
 function currentRoute() {
   const name = location.hash.replace(/^#\/?/, '').split('?')[0];

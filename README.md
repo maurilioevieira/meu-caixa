@@ -16,10 +16,12 @@ e acesse http://localhost:5500
     js/config.js        URL e chave anon do Supabase
     js/supabase.js      cliente único do Supabase
     js/state.js         estado compartilhado (grupo familiar)
+    js/data.js          leituras comuns (contas, categorias)
     js/auth.js          login, logout, grupo familiar
     js/utils.js         moeda, datas, escape de HTML, mensagens de erro
     js/ui.js            janela (modal), aviso rápido, confirmação
     js/app.js           inicialização e rotas (#/pagina)
-    js/pages/contas.js  Contas e cartões
+    js/pages/lancamentos.js  Lançamentos (receitas, despesas, transferências)
+    js/pages/contas.js  Contas e cartões (inclui pagar fatura)
     js/pages/teste.js   Teste de conexão (diagnóstico)
     sql/                scripts do banco (passos 1 e 2)

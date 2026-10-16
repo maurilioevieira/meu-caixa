@@ -14,7 +14,7 @@ import { state } from '../state.js';
 import { openModal, toast, confirmAction, ValidationError } from '../ui.js';
 import {
   formatMoney, moneyToInput, parseMoney, formatDayMonth, formatMonth,
-  escapeHTML, safeColor, initials
+  escapeHTML, safeColor, initials, todayISO
 } from '../utils.js';
 
 const KIND_LABEL = {
@@ -137,6 +137,7 @@ function draw(view) {
       case 'archive':     return setArchived(view, acc, true);
       case 'unarchive':   return setArchived(view, acc, false);
       case 'delete':      return removeAccount(view, acc);
+      case 'pay-invoice': return openPayInvoice(view, acc);
     }
   };
   view.onchange = (e) => {
@@ -151,9 +152,10 @@ function avatar(a) {
   return `<div class="acc-avatar" style="background:${safeColor(a.color)}" aria-hidden="true">${escapeHTML(initials(a.name))}</div>`;
 }
 
-function rowActions(a) {
+function rowActions(a, extra = '') {
   return `
     <div class="acc-actions">
+      ${extra}
       <button type="button" class="btn-link" data-action="edit" data-id="${a.id}">Editar</button>
       ${a.archived
         ? `<button type="button" class="btn-link" data-action="unarchive" data-id="${a.id}">Reativar</button>
@@ -201,8 +203,54 @@ function cardRow(a) {
             <span>Disponível ${formatMoney(limit - debt)}</span>
           </div>
         </div>` : ''}
-      ${rowActions(a)}
+      ${rowActions(a, inv && !a.archived
+        ? `<button type="button" class="btn-link btn-link-strong" data-action="pay-invoice" data-id="${a.id}">Pagar fatura</button>`
+        : '')}
     </article>`;
+}
+
+// ---------------------------------------------------------------------
+// Pagar fatura
+//   O banco (função pay_card_invoice) marca as compras da fatura como
+//   pagas e registra uma TRANSFERÊNCIA da conta escolhida para o cartão.
+//   Assim o gasto não é contado duas vezes: a despesa já foi contada na
+//   compra; o pagamento só move dinheiro da conta para o cartão.
+// ---------------------------------------------------------------------
+function openPayInvoice(view, card) {
+  const inv = card.invoice;
+  const banks = cache.accounts.filter((a) => a.kind !== 'credit_card' && !a.archived);
+  if (banks.length === 0) return toast('Cadastre uma conta para pagar a fatura.', 'error');
+
+  openModal({
+    title: `Pagar fatura — ${card.name}`,
+    submitLabel: `Pagar ${formatMoney(inv.pending_total)}`,
+    bodyHTML: `
+      <p class="info-box">Fatura de <strong>${formatMonth(inv.invoice_month)}</strong>, vencimento
+        <strong>${formatDayMonth(inv.due_date)}</strong>: <strong>${formatMoney(inv.pending_total)}</strong>.</p>
+      <div class="field">
+        <label for="p-from">Pagar com a conta</label>
+        <select id="p-from" name="from">
+          ${banks.map((b) => `<option value="${b.id}">${escapeHTML(b.name)} — saldo ${formatMoney(b.balance)}</option>`).join('')}
+        </select>
+      </div>
+      <div class="field">
+        <label for="p-date">Data do pagamento</label>
+        <input id="p-date" name="date" type="date" required value="${todayISO()}">
+      </div>
+      <p class="hint">Paga o valor total em aberto da fatura. Pagamento parcial ainda não é suportado.</p>`,
+    onSubmit: async (form) => {
+      const f = new FormData(form);
+      const { data, error } = await supabase.rpc('pay_card_invoice', {
+        p_card_id: card.id,
+        p_invoice_month: inv.invoice_month,
+        p_from_account_id: f.get('from'),
+        p_paid_on: f.get('date') || todayISO()
+      });
+      if (error) throw error;
+      toast(`Fatura paga: ${formatMoney(data)}.`);
+      await render(view);
+    }
+  });
 }
 
 // ---------------------------------------------------------------------
@@ -226,6 +274,8 @@ function openAccountForm(view, acc, kind) {
         <label for="f-limit">Limite total (opcional)</label>
         <input id="f-limit" name="credit_limit" inputmode="decimal" placeholder="Ex.: 2.500,00"
                value="${moneyToInput(acc?.credit_limit)}">
+        <p class="hint">O limite total concedido pelo banco, não o disponível hoje.
+          O disponível o app calcula descontando as compras lançadas.</p>
       </div>
       <div class="field-row">
         <div class="field">

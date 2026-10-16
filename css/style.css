@@ -171,14 +171,14 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
 /* No celular, o menu vira uma faixa no topo com rolagem lateral */
 @media (max-width: 760px) {
   .sidebar {
-    max-width: none; flex-basis: 100%;
+    max-width: none; flex-basis: 100%; min-width: 0;   /* min-width: 0 impede o menu de alargar a página */
     flex-direction: row; flex-wrap: wrap; align-items: center;
     padding: 12px 16px; gap: 8px;
   }
   .sidebar .brand { padding: 0 8px 0 0; }
   .sidebar-footer { margin: 0 0 0 auto; padding: 0; order: 2; }
   .nav-links {
-    order: 3; flex-basis: 100%;
+    order: 3; flex-basis: 100%; min-width: 0;
     flex-direction: row; overflow-x: auto; gap: 6px;
   }
   .sidebar a { white-space: nowrap; padding: 9px 12px; }
@@ -327,6 +327,98 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
 .swatch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
 .swatch:has(input:checked) { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--ink); }
 .swatch:has(input:focus-visible) { outline: 2px solid var(--primary); outline-offset: 4px; }
+
+/* ---------------------------- Lançamentos --------------------------- */
+.text-income { color: var(--primary); }
+.tile-dark .tile-value.text-income { color: #8FD3B3; }
+.btn-link-strong { color: var(--primary); text-decoration: underline; text-underline-offset: 3px; }
+
+.month-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 16px; }
+.month-title { margin: 0; font-size: 20px; min-width: 190px; text-align: center; }
+.icon-btn {
+  width: 44px; height: 44px; border-radius: 11px;
+  border: 1px solid #D5DAD4; background: var(--surface); color: var(--ink);
+  display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.icon-btn:hover { background: var(--primary-soft); }
+
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+.filters .field-search { grid-column: span 2; }
+@media (max-width: 560px) { .filters .field-search { grid-column: 1 / -1; } }
+.filters input, .filters select { height: 44px; font-size: 15px; }
+
+.tx-list { display: flex; flex-direction: column; }
+.tx-row {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  column-gap: 14px;
+  row-gap: 4px;
+  align-items: start;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.tx-row:last-child { border-bottom: 0; }
+.tx-date {
+  font-size: 13px; font-weight: 800; color: #3E4A44;
+  background: var(--bg); border-radius: 8px; padding: 6px 0; text-align: center;
+}
+.tx-desc { font-weight: 700; font-size: 15px; overflow-wrap: anywhere; }
+.tx-sub {
+  font-size: 12px; color: var(--muted); font-weight: 600; margin-top: 3px;
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+}
+.tx-sub .dot { width: 8px; height: 8px; }
+.tx-side { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+.tx-amount { font-weight: 800; font-size: 16px; white-space: nowrap; }
+.tx-actions { grid-column: 2 / -1; display: flex; flex-wrap: wrap; gap: 6px; margin: -4px 0 -8px -4px; }
+.tx-row.is-paid .tx-desc { color: #3E4A44; }
+
+.status {
+  font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 99px; white-space: nowrap;
+}
+.status-paid    { background: var(--primary-soft); color: #173F31; }
+.status-pending { background: #FDF0E4; color: #7A3A0C; }
+.status-overdue { background: #FBE2DE; color: var(--danger); }
+.status-card    { background: #ECE6F5; color: #3F2468; }
+.status-neutral { background: var(--line-soft); color: #3E4A44; }
+
+.empty { color: var(--muted); font-weight: 600; margin: 8px 0; }
+
+/* Seletor de tipo (Despesa / Receita / Transferência) */
+.seg {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 4px; padding: 4px; border-radius: 12px; background: #E3E7E2;
+}
+.seg-item { position: relative; }
+.seg-item input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.seg-item input:disabled { cursor: not-allowed; }
+.seg-item span {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 40px; border-radius: 9px; font-size: 13px; font-weight: 700; color: #3E4A44;
+}
+.seg-item input:checked + span { background: var(--surface); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.seg-expense input:checked + span  { color: var(--expense); }
+.seg-income input:checked + span   { color: var(--primary); }
+.seg-transfer input:checked + span { color: #23406E; }
+.seg-item input:focus-visible + span { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+.input-amount { font-size: 22px !important; font-weight: 800; }
+.info-box {
+  margin: 0; padding: 11px 14px; border-radius: 11px;
+  background: #ECE6F5; color: #3F2468; font-size: 13px; font-weight: 600; line-height: 1.5;
+}
+.inst-preview { align-self: end; padding-bottom: 14px; font-weight: 700; color: var(--ink); }
+
+@media (max-width: 560px) {
+  .tx-row { grid-template-columns: 46px minmax(0, 1fr); }
+  .tx-side { grid-column: 2; flex-direction: row; align-items: center; justify-content: space-between; }
+  .tx-actions { grid-column: 2; }
+  .month-title { min-width: 0; flex: 1; font-size: 18px; }
+}
 
 /* ------------------------------ Alertas ----------------------------- */
 .alert { border-radius: 12px; padding: 13px 16px; font-size: 14px; font-weight: 600; margin-bottom: 14px; }
