@@ -22,6 +22,7 @@ import * as painel from './pages/painel.js';
 import * as lancamentos from './pages/lancamentos.js';
 import * as contas from './pages/contas.js';
 import * as categorias from './pages/categorias.js';
+import * as acompanhamento from './pages/acompanhamento.js';
 import * as teste from './pages/teste.js';
 
 const $ = (sel) => document.querySelector(sel);
@@ -34,6 +35,7 @@ const routes = {
   lancamentos,
   contas,
   categorias,
+  acompanhamento,
   teste
 };
 const DEFAULT_ROUTE = 'painel';

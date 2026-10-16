@@ -24,6 +24,7 @@ e acesse http://localhost:5500
     js/pages/painel.js  Painel (tela inicial)
     js/pages/lancamentos.js  Lançamentos (receitas, despesas, transferências)
     js/pages/contas.js  Contas e cartões (inclui pagar fatura)
+    js/pages/acompanhamento.js  Acompanhamento (bebida e outras)
     js/pages/categorias.js  Categorias e orçamentos
     js/pages/teste.js   Teste de conexão (diagnóstico)
     sql/                scripts do banco (passos 1 e 2)

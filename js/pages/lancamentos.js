@@ -57,10 +57,12 @@ export async function render(view) {
   drawShell(view);
   drawList(view);
 
-  // Atalho vindo do Painel (#/lancamentos?novo=1): abre o formulário direto
+  // Atalho vindo de outras páginas: #/lancamentos?novo=1 abre o formulário
+  // direto; &cat=<id> já deixa a categoria escolhida (usado pelo Acompanhamento).
   if (/[?&]novo=1/.test(location.hash)) {
+    const cat = (location.hash.match(/[?&]cat=([0-9a-f-]{36})/) || [])[1] || null;
     history.replaceState(null, '', '#/lancamentos');
-    openTxForm(view, null);
+    openTxForm(view, null, cat);
   }
 }
 
@@ -389,7 +391,7 @@ function categoryOptions(kind, selected) {
   return list.map((c) => `<option value="${c.id}" ${c.id === selected ? 'selected' : ''}>${escapeHTML(c.name)}</option>`).join('');
 }
 
-function openTxForm(view, tx) {
+function openTxForm(view, tx, presetCategoryId = null) {
   const isEdit = !!tx;
   const isInstallment = !!tx?.installment_group_id;
   const usable = cache.accounts.filter((a) => !a.archived || a.id === tx?.account_id || a.id === tx?.to_account_id);
@@ -495,7 +497,7 @@ function openTxForm(view, tx) {
     title: isEdit ? `Editar ${TYPE_LABEL[type0].toLowerCase()}` : 'Novo lançamento',
     bodyHTML,
     submitLabel: isEdit ? 'Salvar alterações' : 'Salvar lançamento',
-    onOpen: (form) => setupForm(form, tx, usable),
+    onOpen: (form) => setupForm(form, tx, usable, presetCategoryId),
     onSubmit: async (form) => {
       await saveTx(form, tx);
       await render(view);
@@ -505,7 +507,7 @@ function openTxForm(view, tx) {
 
 // Liga os campos do formulário: o que aparece depende do tipo,
 // da conta escolhida e das opções marcadas.
-function setupForm(form, tx, usable) {
+function setupForm(form, tx, usable, presetCategoryId = null) {
   const $ = (s) => form.querySelector(s);
   const isEdit = !!tx;
   let lastType = null;
@@ -519,7 +521,7 @@ function setupForm(form, tx, usable) {
       const accList = type === 'expense' ? usable : usable.filter((a) => a.kind !== 'credit_card');
       $('#t-acc').innerHTML = accountOptions(accList, keepAcc);
       if (type !== 'transfer') {
-        $('#t-cat').innerHTML = categoryOptions(type, tx?.category_id);
+        $('#t-cat').innerHTML = categoryOptions(type, tx?.category_id ?? presetCategoryId);
       }
       lastType = type;
     }
