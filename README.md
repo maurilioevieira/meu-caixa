@@ -11,11 +11,15 @@ Os módulos JavaScript (`type="module"`) não funcionam abrindo o arquivo direto
 e acesse http://localhost:5500
 
 ## Estrutura
-    index.html        login + casca do app
-    css/style.css     visual
-    js/config.js      URL e chave anon do Supabase
-    js/supabase.js    cliente único do Supabase
-    js/auth.js        login, logout, grupo familiar
-    js/utils.js       moeda, datas, escape de HTML, mensagens de erro
-    js/app.js         inicialização e rotas (#/pagina)
-    sql/              scripts do banco (passo 1 e passo 2)
+    index.html          login, casca do app, janela de formulário e aviso
+    css/style.css       visual
+    js/config.js        URL e chave anon do Supabase
+    js/supabase.js      cliente único do Supabase
+    js/state.js         estado compartilhado (grupo familiar)
+    js/auth.js          login, logout, grupo familiar
+    js/utils.js         moeda, datas, escape de HTML, mensagens de erro
+    js/ui.js            janela (modal), aviso rápido, confirmação
+    js/app.js           inicialização e rotas (#/pagina)
+    js/pages/contas.js  Contas e cartões
+    js/pages/teste.js   Teste de conexão (diagnóstico)
+    sql/                scripts do banco (passos 1 e 2)
