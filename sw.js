@@ -19,7 +19,7 @@
 //  Ao mudar a lista de arquivos, aumente VERSION para limpar o cache antigo.
 // =====================================================================
 
-const VERSION = 'meu-caixa-v1';
+const VERSION = 'meu-caixa-v2';
 
 const SHELL = [
   './',

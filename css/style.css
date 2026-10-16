@@ -531,7 +531,7 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
 .col:first-child .col-tip { left: 0; transform: none; }
 .col:last-child .col-tip { left: auto; right: 0; transform: none; }
 
-.table-view { margin-top: 12px; font-size: 13px; }
+.table-view { margin-top: 12px; font-size: 13px; overflow-x: auto; }
 .table-view summary { cursor: pointer; font-weight: 700; color: var(--primary); padding: 6px 0; }
 .table-view table { width: 100%; border-collapse: collapse; margin-top: 6px; }
 .table-view th, .table-view td { text-align: right; padding: 7px 6px; border-bottom: 1px solid var(--line-soft); }
@@ -626,3 +626,90 @@ input:disabled, select:disabled { background: var(--bg); color: var(--muted); }
 }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 .toast-error { background: var(--danger); }
+
+/* =====================================================================
+   FONTES MAIORES NO CELULAR
+   ---------------------------------------------------------------------
+   Vale só para telas de até 760px (celular). O computador fica como está.
+   Fica no FIM do arquivo de propósito: regras posteriores vencem as
+   anteriores com o mesmo seletor, então não foi preciso mexer em nada
+   acima. Para ajustar no futuro, altere só este bloco.
+   Critério: textos pequenos (11–13px) sobem para 13–15px, porque são os
+   que mais cansam a vista; títulos e valores sobem um pouco menos.
+   ===================================================================== */
+@media (max-width: 760px) {
+  /* Títulos */
+  h1                      { font-size: 30px; }
+  h2                      { font-size: 18px; }
+  .month-title            { font-size: 20px; }
+  .modal-head h2          { font-size: 21px; }
+  .eyebrow                { font-size: 15px; }
+
+  /* Menu */
+  .brand-name             { font-size: 18px; }
+  .sidebar a              { font-size: 16px; }
+  .sidebar a.nav-minor    { font-size: 15px; }
+  .user-name              { font-size: 15px; }
+
+  /* Botões e links */
+  .btn                    { font-size: 16px; }
+  .btn-link               { font-size: 15px; }
+  .btn-sm                 { font-size: 14px; min-height: 40px; }
+  .btn-install            { font-size: 15px; }
+  .card-link              { font-size: 15px; }
+
+  /* Resumos (tiles) */
+  .tile-label             { font-size: 15px; }
+  .tile-value             { font-size: 28px; }
+  .tile-note              { font-size: 14px; }
+  .tile-unit              { font-size: 16px; }
+
+  /* Listas: lançamentos, vencimentos, contas, categorias */
+  .tx-date                { font-size: 14px; }
+  .tx-desc                { font-size: 17px; }
+  .tx-sub                 { font-size: 14px; }
+  .tx-amount              { font-size: 18px; }
+  .up-date                { font-size: 14px; }
+  .up-date small          { font-size: 12px; }
+  .up-title               { font-size: 16px; }
+  .up-sub                 { font-size: 14px; }
+  .up-amount              { font-size: 16px; }
+  .acc-name               { font-size: 17px; }
+  .acc-sub                { font-size: 14px; }
+  .acc-value              { font-size: 18px; }
+  .acc-limit-text         { font-size: 14px; }
+  .acc-avatar             { font-size: 15px; }
+  .mini-acc, .mini-card-top { font-size: 16px; }
+  .mini-sub               { font-size: 14px; }
+  .mini-avatar            { font-size: 12px; }
+  .cat-name               { font-size: 17px; }
+  .cat-sub                { font-size: 14px; }
+  .list li                { font-size: 16px; }
+
+  /* Etiquetas de situação */
+  .status                 { font-size: 13px; padding: 4px 10px; }
+  .tag                    { font-size: 13px; }
+  .chip                   { font-size: 15px; }
+
+  /* Barras e gráficos */
+  .hbar-label             { font-size: 15px; }
+  .hbar-note              { font-size: 14px; }
+  .legend                 { font-size: 14px; }
+  .col-label              { font-size: 13px; }
+  .col-tip                { font-size: 14px; }
+  .table-view             { font-size: 15px; }
+  .table-view thead th    { font-size: 14px; }
+
+  /* Formulários */
+  .field label, .field legend, .login-card label { font-size: 15px; }
+  .hint                   { font-size: 14px; }
+  .info-box               { font-size: 15px; }
+  .check-line             { font-size: 16px; }
+  .seg-item span          { font-size: 15px; min-height: 44px; }
+  .filters input, .filters select { font-size: 16px; }
+  .select-inline          { font-size: 16px; }
+  .input-amount           { font-size: 24px !important; }
+
+  /* Avisos */
+  .alert, .login-msg, .modal-error, .toast { font-size: 16px; }
+}
