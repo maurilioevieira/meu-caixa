@@ -1,0 +1,184 @@
+/* =====================================================================
+   style.css — Visual base do Meu Caixa (mesma linha da simulação)
+   ===================================================================== */
+
+:root {
+  --bg: #F4F5F2;
+  --surface: #FFFFFF;
+  --ink: #16201B;
+  --muted: #56635C;
+  --line: #E1E5DF;
+  --primary: #1F5C46;
+  --primary-ink: #FFFFFF;
+  --primary-soft: #E3F1EA;
+  --expense: #A9480F;
+  --warn: #D9772F;
+  --error-bg: #FBE9E7;
+  --error-ink: #8A1F11;
+  --sidebar: #16201B;
+  --sidebar-ink: #C9D1CB;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  font-family: Manrope, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;   /* números alinhados em listas */
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] { display: none !important; }
+
+h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin: 0 0 18px; }
+h2 { font-size: 16px; font-weight: 800; margin: 0 0 12px; }
+p  { margin: 0 0 8px; }
+.muted { color: var(--muted); }
+
+/* ------------------------------ Botões ------------------------------ */
+.btn {
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 11px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+.btn:disabled { opacity: .6; cursor: progress; }
+.btn-primary { background: var(--primary); color: var(--primary-ink); }
+.btn-primary:hover:not(:disabled) { background: #174837; }
+.btn-ghost { background: transparent; color: var(--sidebar-ink); border: 1px solid #2C3832; min-height: 40px; }
+.btn-ghost:hover { color: #fff; border-color: #4A5A52; }
+
+/* ------------------------------ Login ------------------------------- */
+.login {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.login-card .brand { padding: 0 0 4px; }
+.login-card .brand-name { color: var(--ink); }
+.login-card label { font-size: 13px; font-weight: 700; color: var(--muted); margin-top: 10px; }
+.login-card input {
+  height: 48px;
+  border: 1px solid #C8CFC9;
+  border-radius: 11px;
+  padding: 0 14px;
+  font: inherit;
+  font-size: 16px;               /* 16px evita o zoom automático no iPhone */
+}
+.login-card input:focus { outline: 2px solid var(--primary); outline-offset: 1px; }
+.login-card .btn { margin-top: 18px; }
+.login-msg { min-height: 20px; color: var(--error-ink); font-size: 14px; font-weight: 600; margin: 4px 0 0; }
+
+/* ------------------------------ Marca ------------------------------- */
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: #3FA37C; color: #0D1712;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 13px;
+}
+.brand-name { font-weight: 800; font-size: 17px; color: #E8ECE7; }
+
+/* ----------------------------- Layout ------------------------------- */
+.layout { display: flex; flex-wrap: wrap; min-height: 100vh; }
+
+.sidebar {
+  flex: 1 1 232px;
+  max-width: 260px;
+  background: var(--sidebar);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sidebar .brand { padding: 0 8px 20px; }
+.sidebar a {
+  color: var(--sidebar-ink);
+  text-decoration: none;
+  padding: 11px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 14px;
+}
+.sidebar a:hover { color: #fff; }
+.sidebar a.active { background: #CFE8DC; color: #0D1712; font-weight: 700; }
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.user-name { color: #E8ECE7; font-weight: 700; font-size: 14px; }
+
+.content {
+  flex: 999 1 560px;
+  min-width: 0;
+  max-width: 1100px;
+  padding: 32px clamp(16px, 3vw, 40px) 48px;
+}
+
+/* No celular, o menu vira uma faixa no topo */
+@media (max-width: 760px) {
+  .sidebar { max-width: none; flex-basis: 100%; flex-direction: row; flex-wrap: wrap; align-items: center; padding: 12px 16px; }
+  .sidebar .brand { padding: 0 8px 0 0; }
+  .sidebar-footer { margin: 0 0 0 auto; padding: 0; }
+  .content { padding-top: 20px; }
+}
+
+/* ------------------------------ Cards ------------------------------- */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 14px;
+}
+
+.list { list-style: none; margin: 0; padding: 0; }
+.list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #EEF0EC;
+  font-size: 14px;
+}
+.list li:last-child { border-bottom: 0; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 12px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 13px; font-weight: 600;
+}
+.chip small { color: var(--muted); font-weight: 600; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+/* ------------------------------ Alertas ----------------------------- */
+.alert { border-radius: 12px; padding: 13px 16px; font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+.alert-ok    { background: var(--primary-soft); color: #173F31; border: 1px solid #BFDCCD; }
+.alert-error { background: var(--error-bg); color: var(--error-ink); border: 1px solid #F1C2BA; }

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#16201B">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Meu Caixa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ============================ LOGIN ============================ -->
+  <main id="login" class="login" hidden>
+    <form id="login-form" class="login-card" autocomplete="on">
+      <div class="brand">
+        <div class="brand-mark">R$</div>
+        <div class="brand-name">Meu Caixa</div>
+      </div>
+      <p class="muted">Controle financeiro da casa</p>
+
+      <label for="login-email">E-mail</label>
+      <input id="login-email" type="email" autocomplete="username" required>
+
+      <label for="login-password">Senha</label>
+      <input id="login-password" type="password" autocomplete="current-password" required minlength="6">
+
+      <button id="login-btn" type="submit" class="btn btn-primary">Entrar</button>
+      <p id="login-msg" class="login-msg" role="alert"></p>
+    </form>
+  </main>
+
+  <!-- ============================= APP ============================= -->
+  <div id="app" class="layout" hidden>
+    <nav class="sidebar" aria-label="Menu principal">
+      <div class="brand">
+        <div class="brand-mark">R$</div>
+        <div class="brand-name">Meu Caixa</div>
+      </div>
+      <a href="#/teste" data-route="teste">Teste de conexão</a>
+      <!-- As próximas páginas entram aqui nos próximos passos -->
+      <div class="sidebar-footer">
+        <span id="user-name" class="user-name"></span>
+        <button id="logout-btn" type="button" class="btn btn-ghost">Sair</button>
+      </div>
+    </nav>
+    <main id="view" class="content"></main>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
